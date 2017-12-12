@@ -1,0 +1,12 @@
+extends layout
+
+
+block content
+    h1 transfer money
+    form(action="/transferMoney" method='get')
+        h2 how much money to transfer
+        input#amountOfMoney(type='text' name="amountMoney")
+        h2 enter acount number
+        input#acountNumber(type='text' name="acountNumber")
+        br
+        input#submnit(type='submit' value='send money')
