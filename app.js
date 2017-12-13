@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-const session = require('express-session');
+//const session = require('express-session');
 
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
@@ -27,6 +27,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
+app.use(require('express-session')({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false
+}));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -38,7 +44,7 @@ app.use('/users', users);
 
 /* Passport */
 var User = require('./models/user');
-passport.use(new LocalStrategy(User.authenticate()));
+passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 

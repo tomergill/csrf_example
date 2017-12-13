@@ -1,0 +1,35 @@
+extends layout
+
+
+block content
+    if logged_in
+        div
+            h1 You are Logged-In.
+            | Transferring you to home page in 5 seconds...
+            script.
+                setTimeout(function () {
+                    location.href = '/';
+                }, 5000)
+    else
+        if error
+            h1
+                b ERROR REGISTERING NEW USER: #{error}
+        h1#here Register
+        form(action="/register" method='post')
+            h2 enter your name
+            input#accNumber(type='text', name='username')
+            h2 gender
+            h8 male
+            input(name='gender' type='radio' value='male' selected="true")
+            h8 female
+            input(name='gender' type='radio' value='female')
+            h8 Tomer Gill
+            input(name='gender' type='radio' value='Tomer Gill')
+            h2 enter password
+            input#password(type='text', name='pass')
+            h2 starting balance
+            input(name="balance", type="number", value="1000")
+
+            br
+
+            input#submit(type='submit' value='done')

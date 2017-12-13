@@ -1,5 +1,13 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+    h1="THE FIRST BANK OF BIU"
+    p Welcome to the First Bank of BIU (FBOB).
+    if logged_in
+        h3 Transfer Money
+        a(href="/transferMoney") Click here to transfer money!
+    else
+        p Please login or register to use this site.
+        a(href="/login") Login Here
+        br
+        a(href="/register") Register Here
