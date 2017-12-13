@@ -2,11 +2,12 @@ extends layout
 
 
 block content
-    h1 transfer money
-    form(action="/transferMoney" method='get')
+    h1 Protected Transfer Money
+    form(action="/protectedTransferMoney" method='get')
         h2 how much money to transfer
         input#amountMoney(type='text' name="amountMoney")
         h2 enter acount number
         input#acountNumber(type='text' name="acountNumber")
+        input(type="text", name="tok", hidden="hidden", value=token)
         br
         input#submnit(type='submit' value='send money')

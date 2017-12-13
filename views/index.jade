@@ -3,9 +3,13 @@ extends layout
 block content
     h1="THE FIRST BANK OF BIU"
     p Welcome to the First Bank of BIU (FBOB).
+    | We are the MOST secured bank in this university, IF you choose the right link below.
     if logged_in
         h3 Transfer Money
         a(href="/transferMoney") Click here to transfer money!
+        br
+        br
+        a(href="/protectedTransferMoney") Click here to SAFELY transfer money!
     else
         p Please login or register to use this site.
         a(href="/login") Login Here
