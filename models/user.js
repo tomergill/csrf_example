@@ -4,8 +4,8 @@ var passportLocalMongoose = require('passport-local-mongoose');
 var randToken = require('rand-token');
 
 var User = new Schema({
-    username: {type: String, unique:true},
-    password: String,
+    accNumber: {type: String, unique:true, required: true, index: true},
+    pass: {type: String, required: true},
     csrfToken: {type: String, default: function() {
         return randToken.generate(16);
     }},

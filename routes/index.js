@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
+var passport = require('passport');
 
 /*********************** Home Page ***********************/
 
@@ -25,23 +26,26 @@ router.get('/register', function (req, res, next) {
 
 //POST - Inserting a new user
 router.post('/register', function (req, res, next) {
-    if (req.session.uid) {
+    var ses = req.session;
+    if (ses.uid) {
         res.render('register', {logged_in: true});
         return
     }
-    User.register(new User({
-            username: req.body.accNumber,
+
+    User.create(new User({
+            accNumber: req.body.accNumber,
+            pass: req.body.pass,
             gender: req.body.gender,
             balance: req.body.balance
-        }),
-        req.body.password, function (err, user) {
+        }), function (err, user) {
             if (err) {
                 return res.render('register', {error: err});
             }
             passport.authenticate('local')(req, res, function () {
-                res.redirect('register', {logged_in: true});
+                res.render('register', {logged_in: true});
             });
         });
+    res.render('login', {msg: "New user entered, please login."});
 });
 
 /*********************************************************/

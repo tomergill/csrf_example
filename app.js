@@ -44,7 +44,7 @@ app.use('/users', users);
 
 /* Passport */
 var User = require('./models/user');
-passport.use(User.createStrategy());
+passport.use(new LocalStrategy({usernameField: 'accNumber', passwordField: 'pass'}, User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
