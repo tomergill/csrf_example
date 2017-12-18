@@ -3,6 +3,7 @@ var router = express.Router();
 var User = require('../models/user');
 var passport = require('passport');
 
+
 /*********************** Home Page ***********************/
 
 //GET
@@ -24,7 +25,7 @@ router.get('/register', function (req, res, next) {
         res.render('register', {});
 });
 
-//POST - Inserting a new user
+//POST - Inserting a new user == bank account
 router.post('/register', function (req, res, next) {
     var ses = req.session;
     if (ses.uid) {
@@ -48,10 +49,8 @@ router.post('/register', function (req, res, next) {
     res.render('login', {msg: "New user entered, please login."});
 });
 
-/*********************************************************/
 
-
-/********************* login Page *********************/
+/********************* Login Page *********************/
 
 //GET
 router.get('/login', function (req, res, next) {
@@ -61,7 +60,7 @@ router.get('/login', function (req, res, next) {
         res.render('login', {});
 });
 
-//POST - Inserting a new user
+//POST - User logging in
 router.post('/login', function (req, res) {
     var ses = req.session;
     if (ses.uid) {
@@ -77,18 +76,17 @@ router.post('/login', function (req, res) {
 });
 
 
-/*********************************************************/
-
-
 /********************* Transfer money Page *********************/
 
-//GET
+/*
+ * GET - used to display the page (no query) and make a transaction (with appropriate parameters in query)
+ */
 router.get('/transferMoney', function (req, res, next) {
-    if (req.session.uid) {
-        if (req.query.amountMoney == undefined) {
+    if (req.session.uid) {  // logged in
+        if (req.query.amountMoney == undefined) {  // no query - display the page
             res.render('transferMoney', {});
         }
-        else {
+        else {  // has query to transfer money
             if (checkAuth(req, res)) {
                 var promise = User.findOne({_id: req.session.uid}).exec();
                 promise.then(function (user) {
@@ -120,7 +118,6 @@ router.post('transferMoney', checkAuth, function (req, res) {
     console.log("amount: " + req.body.amountMoney + ",  account number: " + req.body.acountNumber + " from: " + req.user.username);
 });
 
-/*********************************************************/
 
 /*********** PROTECTED TRANSFER MONEY *******************/
 
@@ -158,15 +155,15 @@ router.get('/protectedTransferMoney', function (req, res, next) {
     }
 });
 
-/********************************************************/
+/**********************************************************************************************************************/
 
 
 function checkAuth(req, res, next) {
     if (!req.session.uid) {
-        console.log("---------------------you are not authenticate----------------");
+        console.log("---------------------you are not authenticated----------------");
         return false;
     } else {
-        console.log("---------------you are authenticate-----------------");
+        console.log("---------------you are authenticated-----------------");
         return true;
     }
 }
